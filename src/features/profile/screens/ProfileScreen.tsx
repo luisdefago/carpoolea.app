@@ -4,25 +4,31 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../../contexts/AuthContext';
+import { useConfirm } from '../../../contexts/ConfirmationContext';
+import { Ionicons } from '@expo/vector-icons';
+import { colors } from '../../../constants';
 import { styles } from './ProfileScreen.styles';
 
 export const ProfileScreen: React.FC = () => {
   const { user, logout } = useAuth();
+  const { confirm } = useConfirm();
   const navigation = useNavigation<any>();
 
-  const handleLogout = () => {
-    Alert.alert(
-      'Cerrar Sesión',
-      '¿Estás seguro que deseas salir?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Salir', onPress: logout, style: 'destructive' },
-      ]
-    );
+  const handleLogout = async () => {
+    const isConfirmed = await confirm({
+      title: 'Cerrar Sesión',
+      message: '¿Estás seguro que deseas salir?',
+      confirmLabel: 'Salir',
+      cancelLabel: 'Cancelar',
+      isDestructive: true,
+    });
+
+    if (isConfirmed) {
+      logout();
+    }
   };
 
   if (!user) {
@@ -39,6 +45,14 @@ export const ProfileScreen: React.FC = () => {
         </View>
         <Text style={styles.name}>{user.firstName} {user.lastName}</Text>
         <Text style={styles.email}>{user.email}</Text>
+        
+        <TouchableOpacity 
+          style={styles.editButton}
+          onPress={() => navigation.navigate('EditProfile')}
+        >
+          <Ionicons name="pencil" size={16} color={colors.white} />
+          <Text style={styles.editButtonText}>Editar Perfil</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.infoCard}>

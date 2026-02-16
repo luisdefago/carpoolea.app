@@ -37,6 +37,21 @@ export const styles = StyleSheet.create({
     fontSize: typography.fontSize.base,
     color: colors.textSecondary,
   },
+  editButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    borderRadius: 20,
+    marginTop: spacing.md,
+    gap: spacing.xs,
+  },
+  editButtonText: {
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.white,
+  },
   infoCard: {
     backgroundColor: colors.white,
     borderRadius: 16,

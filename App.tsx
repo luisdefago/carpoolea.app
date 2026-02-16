@@ -8,7 +8,7 @@ import { ToastProvider } from './src/contexts/ToastContext';
 import { ConfirmationProvider } from './src/contexts/ConfirmationContext';
 import { LoginScreen, RegisterScreen } from './src/features/auth';
 import { TripListScreen } from './src/features/trips';
-import { ProfileScreen } from './src/features/profile';
+import { ProfileScreen, EditProfileScreen } from './src/features/profile';
 import { VehicleListScreen, AddVehicleScreen, EditVehicleScreen } from './src/features/vehicles';
 import { colors } from './src/constants';
 
@@ -100,6 +100,11 @@ function MainStack() {
         name="EditVehicle" 
         component={EditVehicleScreen} 
         options={{ title: 'Editar Vehículo' }}
+      />
+      <Stack.Screen 
+        name="EditProfile" 
+        component={EditProfileScreen} 
+        options={{ title: 'Editar Perfil' }}
       />
     </Stack.Navigator>
   );

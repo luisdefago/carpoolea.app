@@ -14,6 +14,7 @@ export interface User {
 export interface UpdateProfileData {
   firstName?: string;
   lastName?: string;
+  phone?: string;
   photoUrl?: string;
 }
 
