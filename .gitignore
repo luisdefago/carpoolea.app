@@ -5,32 +5,78 @@ node_modules/
 
 # Expo
 .expo/
+.expo-shared/
 dist/
 web-build/
 expo-env.d.ts
 
-# Native
-.kotlin/
-*.orig.*
+# Native builds
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
+*.orig.*
+ios/
+android/
 
 # Metro
 .metro-health-check*
+.metro-cache/
 
-# debug
+# Debug
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Build artifacts
+build/
+*.apk
+*.aab
+*.ipa
 
 # macOS
 .DS_Store
 *.pem
 
-# local env files
 .env*.local
 
 # typescript
