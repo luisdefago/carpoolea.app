@@ -27,6 +27,14 @@ export const vehicleService = {
   },
 
   /**
+   * Check if vehicle has active trips
+   */
+  checkActiveTrips: async (id: number): Promise<{ hasActiveTrips: boolean; activeTripsCount: number }> => {
+    const { data } = await apiClient.get(`/vehicles/${id}/check-active-trips`);
+    return data;
+  },
+
+  /**
    * Delete a vehicle
    */
   delete: async (id: number): Promise<void> => {

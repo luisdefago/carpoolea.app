@@ -49,21 +49,43 @@ export const VehicleListScreen: React.FC = () => {
   };
 
   const handleDeleteVehicle = async (id: number) => {
-    const isConfirmed = await confirm({
-      title: 'Eliminar Vehículo',
-      message: '¿Estás seguro que deseas eliminar este vehículo?',
-      confirmLabel: 'Eliminar',
-      isDestructive: true,
-    });
+    try {
+      // First, check if vehicle has active trips
+      const { hasActiveTrips, activeTripsCount } = await vehicleService.checkActiveTrips(id);
+      
+      if (hasActiveTrips) {
+        // Show warning about active trips
+        const isConfirmed = await confirm({
+          title: 'Vehículo con Viajes Activos',
+          message: `Este vehículo tiene ${activeTripsCount} viaje${activeTripsCount > 1 ? 's' : ''} activo${activeTripsCount > 1 ? 's' : ''}. Al eliminarlo, ya no podrás usarlo para crear nuevos viajes, pero se mantendrá la información en los viajes finalizados.\n\n¿Deseas continuar?`,
+          confirmLabel: 'Sí, eliminar',
+          cancelLabel: 'Cancelar',
+          isDestructive: true,
+        });
 
-    if (isConfirmed) {
-      try {
-        await vehicleService.delete(id);
-        showToast('Vehículo eliminado correctamente', 'success');
-        setVehicles(vehicles.filter((v) => v.id !== id));
-      } catch (error) {
-        showToast('No se pudo eliminar el vehículo', 'error');
+        if (!isConfirmed) {
+          return;
+        }
+      } else {
+        // Normal confirmation for vehicles without active trips
+        const isConfirmed = await confirm({
+          title: 'Eliminar Vehículo',
+          message: '¿Estás seguro que deseas eliminar este vehículo?',
+          confirmLabel: 'Eliminar',
+          isDestructive: true,
+        });
+
+        if (!isConfirmed) {
+          return;
+        }
       }
+
+      // Proceed with deletion (soft delete on backend)
+      await vehicleService.delete(id);
+      showToast('Vehículo eliminado correctamente', 'success');
+      setVehicles(vehicles.filter((v) => v.id !== id));
+    } catch (error) {
+      showToast('No se pudo eliminar el vehículo', 'error');
     }
   };
 
